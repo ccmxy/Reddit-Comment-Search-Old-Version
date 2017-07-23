@@ -8,6 +8,6 @@ Front end based on [WikipediaSearchEngine by Adarsh Khubchandani](https://codepe
 
 On the opening page type in one, two, or three boxes to search by criteria of user, subreddit, and/or search word/phrase.     
 
-On the page with one search box search with any combination of: 'user=<username>:: search=<search phrase>:: subreddit=<subreddit>::'    
+On the page with one search box search with any combination of: `user=<username>:: search=<search phrase>:: subreddit=<subreddit>::`    
 
 If a search phrase is specified but user and subreddit or not, comments are pulled from r/redditdev.   
