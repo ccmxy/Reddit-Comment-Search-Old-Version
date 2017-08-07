@@ -96,9 +96,11 @@ nav h3{
 }
 
 
+
 input#after_search{
     display: flex;
-    align-items: center;
+    align-items: flex-end;
+    width: 100%;
 }
 
 
@@ -293,11 +295,6 @@ section{
         padding-left: 10px;
   }
 
-      #after_search_container{
-    align-items: stretch;
-    width: 80%;
-  }
-
     input#after_search{
       width: 100%;
     }
@@ -337,6 +334,15 @@ section{
       overflow-wrap: break-word;
   }
 
+
+}
+
+
+@media only screen and (min-width:721px)  {
+
+input#after_search{
+        width: 500px;
+    }
 
 }
 
