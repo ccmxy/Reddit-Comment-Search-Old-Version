@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
     var currentRequest = null;
-    var SERVER_ADDRESS = "http://52.38.127.124:8000/";
+    var SERVER_ADDRESS = "http://localhost:8000/";
 
     // Function to check if the input search box isn't empty
     function checkInput() {
