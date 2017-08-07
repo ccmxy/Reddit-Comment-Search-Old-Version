@@ -167,13 +167,15 @@ section{
     align-items: center;
     width: 35px;
     background-color:#3369E8;
+       justify-content: stretch; 
+
 /*    margin-left: -15px;
 */    color: white;
 }
 
 #after_search{
   height: 35px;
-  
+
 }
 
 .after_search_container span i{
