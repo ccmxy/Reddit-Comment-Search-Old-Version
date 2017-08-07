@@ -59,8 +59,13 @@ input {
     display: none;
 }
 
+header {
+  display: flex;
+}
+
 nav {
     display: flex;
+    -webkit-box-align: center;
     align-items: center;
     padding: 5px;
     height: 90px;
@@ -68,18 +73,28 @@ nav {
     background-color: #eee;
 }
 
+.shelf {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  padding: 5px;
+  height: 90px;
+  width: 100%;
+  background-color: #eee;
+}
+
+h1{
+  display: block;
+}
+
 nav h3{
     margin: 5px;
 }
 
 
-input#after_search, input#search-term-after{
+input#after_search{
     display: flex;
     align-items: center;
-    margin: 15px;
-    padding-left: 7px;
-    height: 35px;
-    font-size:20px;
 }
 
 
@@ -135,7 +150,6 @@ section{
 .after_search_container{
     display: flex;
     align-items: center;
-
 }
 
 .after_search_container span{
@@ -197,14 +211,39 @@ section{
     }
 }
 
+
 @media only screen and (max-width:470px)  {
 
+  .shelf {
+    display: inline-grid;
+    align-items: center;
+  }
+
+  .shelf .logo {
+    display: flex;
+    justify-content: center;
+  }
+
+
+  #after_search_container{
+    align-items: stretch;
+    width: 100%;
+  }
+
     input#user, input#search_terms, input#subreddit{
-        width: 300px;
+      border-style: outset;
+      border-width: thin;
+      flex: 0 0 auto;
+      margin: -5px 0;
+      border-color: '#EBEBEB';
+      border-bottom-color: rgb(34, 34, 34);
+      border-radius: 0;
+      -webkit-tap-highlight-color: rgba(51, 181, 229, 0.4)
+      font-size: 13px;
     }
 
     input#after_search{
-        width: 160px;
+      width: 100%;
     }
 
     .comment_body {
