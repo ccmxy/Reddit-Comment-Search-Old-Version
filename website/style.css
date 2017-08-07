@@ -115,7 +115,7 @@ section{
 }
 
 .btn-primary {
-    
+
     background-color: #eee;
     border-color: #eee;
     color: grey;
@@ -135,7 +135,7 @@ section{
 .after_search_container{
     display: flex;
     align-items: center;
-    
+
 }
 
 .after_search_container span{
@@ -164,63 +164,58 @@ section{
     input#after_search {
         width: 300px;
     }
-    
-    input#user{
-        width: 250px;
+
+    input#user, input#search_terms, input#subreddit{
+        width: 300px;
     }
-    
+
     .comment_body {
         width: 350px;
     }
-    
+
     section{
         padding-left: 35px;
     }
 }
 
 @media only screen and (max-width:520px)  {
-    
-    input#user{
-        width: 250px;
-    }
-    
+
+  input#user, input#search_terms, input#subreddit{
+      width: 250px;
+  }
+
     input#after_search{
         width: 250px;
     }
-    
+
     .comment_body {
         width: 350px;
     }
-    
+
     section{
         padding-left: 20px;
     }
 }
 
 @media only screen and (max-width:470px)  {
-    
-    input#user{
+
+    input#user, input#search_terms, input#subreddit{
         width: 300px;
     }
-    
+
     input#after_search{
         width: 160px;
     }
-    
+
     .comment_body {
-        width: 330px;
+        width: 300px;
     }
-    
+
     section{
         padding-left: 20px;
     }
 }
+
 p{
     text-align:center;
 }
-
-
-
-
-
-
