@@ -155,10 +155,6 @@ section{
     display: flex;
     align-items: stretch;
     margin-right: 0;
-    float: right;
-
-/*     justify-content: stretch; 
-*/
 /*    justify-content: stretch;
 */
 }
@@ -171,20 +167,13 @@ section{
     align-items: center;
     width: 35px;
     background-color:#3369E8;
-    
-     justify-content: stretch; 
 /*    margin-left: -15px;
-*/   
-/*margin-right: -3px;
-
-*/   
-
- color: white;
+*/    color: white;
 }
 
 #after_search{
   height: 35px;
-
+  
 }
 
 .after_search_container span i{
@@ -195,7 +184,7 @@ section{
     cursor:pointer;
 }
 
-/*Media Query
+/*Media Query*/
 
 @media (min-width:521px) and (max-width:720px){
 
