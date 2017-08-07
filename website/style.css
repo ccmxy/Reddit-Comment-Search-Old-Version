@@ -1,6 +1,6 @@
 html,
 body {
-    height: 90%;
+    height: 100%;
     width: 100%;
 }
 .highlight {
@@ -15,7 +15,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-}
+ }
 .wrapper h1 {
     display: flex;
     justify-content: center;
@@ -24,6 +24,10 @@ body {
     letter-spacing: 5px;
     color: rgb(251, 67, 4);
     margin: 5px;
+    align-self: flex-start;
+}
+#search{
+  align-self: flex-end;
 }
 .logo:hover {
     text-decoration: none;
@@ -249,7 +253,8 @@ section {
     input#search_terms,
     input#subreddit {
         height: 12%;
-    }
+/*        margin: 2%;
+*/    }
     section {
         padding-left: 20px;
     }
