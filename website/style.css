@@ -63,17 +63,8 @@ header {
   display: flex;
 }
 
-nav {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    padding: 5px;
-    height: 90px;
-    width: 100%;
-    background-color: #eee;
-}
 
-.shelf {
+nav, .shelf {
   display: flex;
   align-items: center;
   padding: 5px;
@@ -222,10 +213,6 @@ section{
     .url{
     font-size: 0.7em;
     overflow-wrap: break-word;
-/*    max-width: 70%;
-        margin-left: 10%;
-   margin-right: 10%;
-*/
   }
 
   .shelf {
@@ -244,17 +231,6 @@ section{
     width: 100%;
   }
 
-    input#user, input#search_terms, input#subreddit{
-      border-style: outset;
-      border-width: thin;
-      flex: 0 0 auto;
-      margin: -5px 0;
-      border-color: '#EBEBEB';
-      border-bottom-color: rgb(34, 34, 34);
-      border-radius: 0;
-      -webkit-tap-highlight-color: rgba(51, 181, 229, 0.4)
-      font-size: 13px;
-    }
 
     input#after_search{
       width: 100%;
