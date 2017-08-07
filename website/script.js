@@ -106,7 +106,7 @@ $(document).ready(function() {
                     }
 
                     if(searchterms){ body = body.replaceAll(searchterms, '<span class=highlight><b>' + searchterms + '</b></span>');}
-                    $('.search_results_section').append("<div class='short_url'>" + "<a href='" + permalink + "' target='_blank'>" + title + "</a>" + "</div>" + "<div class='comment_body'>" + body + "</div>");
+                    $('.search_results_section').append("<div class='short_url'>" + "<a href='" + permalink + "' target='_blank' class='url'>" + title + "</a>" + "</div>" + "<div class='comment_body'>" + body + "</div>");
                 }
             });
         }

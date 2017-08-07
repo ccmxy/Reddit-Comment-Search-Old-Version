@@ -219,6 +219,15 @@ section{
 
 @media only screen and (max-width:470px)  {
 
+    .url{
+    font-size: 0.7em;
+    overflow-wrap: break-word;
+/*    max-width: 70%;
+        margin-left: 10%;
+   margin-right: 10%;
+*/
+  }
+
   .shelf {
     display: inline-grid;
     align-items: center;
