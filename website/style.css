@@ -253,8 +253,8 @@ section {
     input#search_terms,
     input#subreddit {
         height: 12%;
-/*        margin: 2%;
-*/    }
+        margin: 2%;
+    }
     section {
         padding-left: 20px;
     }
