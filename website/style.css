@@ -76,7 +76,8 @@ header {
 }
 
 .shelf {
-  display: flex;
+/*  justify-content: stretch;
+*/  display: flex;
   align-items: center;
   padding: 5px;
   height: 90px;
@@ -90,6 +91,8 @@ h1{
 
 nav h3{
     margin: 5px;
+        color: rgb(251,67,4);
+
 }
 
 
@@ -151,7 +154,13 @@ section{
 .after_search_container{
     display: flex;
     align-items: stretch;
+    margin-right: 0;
+    float: right;
 
+/*     justify-content: stretch; 
+*/
+/*    justify-content: stretch;
+*/
 }
 
 .after_search_container span{
@@ -162,12 +171,20 @@ section{
     align-items: center;
     width: 35px;
     background-color:#3369E8;
-    margin-left: -15px;
-    color: white;
+    
+     justify-content: stretch; 
+/*    margin-left: -15px;
+*/   
+/*margin-right: -3px;
+
+*/   
+
+ color: white;
 }
 
 #after_search{
   height: 35px;
+
 }
 
 .after_search_container span i{
@@ -178,7 +195,7 @@ section{
     cursor:pointer;
 }
 
-/*Media Query*/
+/*Media Query
 
 @media (min-width:521px) and (max-width:720px){
 
