@@ -1,7 +1,8 @@
 html,body {
     height: 90%;
     width: 100%;
-}
+/*    overflow: visible;
+*/}
 
 .highlight
 {
@@ -61,16 +62,6 @@ input {
 
 header {
   display: flex;
-}
-
-nav {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    padding: 5px;
-    height: 90px;
-    width: 100%;
-    background-color: #eee;
 }
 
 .shelf {
@@ -148,8 +139,7 @@ section{
 
 .after_search_container{
     display: flex;
-/*    align-items: center;
-*/        align-items: stretch;
+   align-items: stretch;
 
 }
 
@@ -218,6 +208,15 @@ section{
 
 
 @media only screen and (max-width:470px)  {
+
+    .url{
+    font-size: 0.7em;
+    overflow-wrap: break-word;
+/*    max-width: 70%;
+        margin-left: 10%;
+   margin-right: 10%;
+*/
+  }
 
   .shelf {
     display: inline-grid;
