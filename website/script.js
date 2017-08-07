@@ -16,6 +16,7 @@ $(document).ready(function() {
     //When the search button is clicked
     $('#search').click(function() {
         if (checkInput()) {
+            $('#after_search').val("");
             search();
         }
     });
