@@ -26,8 +26,13 @@ body {
     margin: 5px;
     align-self: flex-start;
 }
-#search{
-  align-self: flex-end;
+
+
+#about{
+  display:flex;
+  justify-content: center;
+    align-self: flex-end;
+
 }
 .logo:hover {
     text-decoration: none;
@@ -52,10 +57,6 @@ body {
     padding: 20px;
 }
 
-#about{
-  display:flex;
-  justify-content: center;
-}
 .hidden {
     display: none;
 }
