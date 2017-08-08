@@ -2,6 +2,8 @@ $(document).ready(function() {
 
     var currentRequest = null;
     var SERVER_ADDRESS = "http://localhost:8000/";
+    var COMMENT_RESPONSE;
+    var USER, SUBREDDIT, SEARCH_TERMS;
 
     // Function to check if the input search box isn't empty
     function checkInput() {
@@ -16,6 +18,7 @@ $(document).ready(function() {
     //When the search button is clicked
     $('#search').click(function() {
         if (checkInput()) {
+            $('#after_search').val("");
             search();
         }
     });
@@ -45,6 +48,7 @@ $(document).ready(function() {
             dataType: "json",
             success: function(commentResponse) {
                 showLocalServerResults(commentResponse, searchterms, username, subreddit);
+                COMMENT_RESPONSE = commentResponse;
             },
             error: function() {
                     showNoMatchMessege(searchterms, username, subreddit);
@@ -57,13 +61,13 @@ $(document).ready(function() {
         if (searchterms == "") {delete searchterms;}
         if (subreddit == "") {delete subreddit;}
          $('.search_results_section').html("");
-        if(username && subreddit && searchterms){ $('.search_results_section').append("<div class='error'><div>Your search for comments containing <b>" + searchterms + "</b> by user <b><a href='https://www.reddit.com/u/" + username + "'>/u/" + username + " </a></b> in <b><a href='https://www.reddit.com/r/" + subreddit + "'>r/ " + subreddit + "</a> </b> - did not return any matches.</div></div>");}
+        if(username && subreddit && searchterms){ $('.search_results_section').append("<div class='error'><div>Your search for comments containing <b>" + searchterms + "</b> by user <b><a href='https://www.reddit.com/u/" + username + "'>/u/" + username + " </a></b> in <b><a href='https://www.reddit.com/r/" + subreddit + "'>r/" + subreddit + "</a> </b> - did not return any matches.</div></div>");}
          else if (username && searchterms){ $('.search_results_section').append("<div class='error'><div>Your search for comments containing <b>" + searchterms + "</b> by user <b><a href='https://www.reddit.com/u/" + username + "'>/u/" + username + " </a></b> - did not return any matches.</div>");}
-         else if (username && subreddit ){ $('.search_results_section').append("<div class='error'><div>Your search for comments by user <b><a href='https://www.reddit.com/u/" + username + "'>/u/" + username + " </a></b> in <b><a href='https://www.reddit.com/r/" + subreddit + "'>r/ " + subreddit + "</a> </b>- did not return any matches.</div>");}
-         else if (searchterms && subreddit){ $('.search_results_section').append("<div class='error'><div>Your search for comments containing <b>" + searchterms + "</b> in <b><a href='https://www.reddit.com/r/" + subreddit + "'>r/ " + subreddit + "</a> </b>- did not return any matches.</div>");}
+         else if (username && subreddit ){ $('.search_results_section').append("<div class='error'><div>Your search for comments by user <b><a href='https://www.reddit.com/u/" + username + "'>/u/" + username + " </a></b> in <b><a href='https://www.reddit.com/r/" + subreddit + "'>r/" + subreddit + "</a> </b>- did not return any matches.</div>");}
+         else if (searchterms && subreddit){ $('.search_results_section').append("<div class='error'><div>Your search for comments containing <b>" + searchterms + "</b> in <b><a href='https://www.reddit.com/r/" + subreddit + "'>r/" + subreddit + "</a> </b>- did not return any matches.</div>");}
          else if (searchterms){ $('.search_results_section').append("<div class='error'><div>Your search for comments containing <b>" + searchterms + "</b> - did not return any matches.</div>");}
          else if (username){ $('.search_results_section').append("<div class='error'><div>Your search for comments by <b><a href='https://www.reddit.com/u/" + username + "'>/u/" + username + " </a></b> - did not return any matches.</div>");}
-         else if (subreddit){ $('.search_results_section').append("<div class='error'><div>Your search for comments in <b><a href='https://www.reddit.com/r/" + subreddit + "'>r/ " + subreddit + "</a> </b> - did not return any matches.</div>");}
+         else if (subreddit){ $('.search_results_section').append("<div class='error'><div>Your search for comments in <b><a href='https://www.reddit.com/r/" + subreddit + "'>r/" + subreddit + "</a> </b> - did not return any matches.</div>");}
          $('.search_results_section').append("<br>" +"<div>Possible issues:</div>" + "<br>" + "<ul>");
          $('.search_results_section').append("<li>If you're searching from this page, remember that options are search=, user= and subreddit=. </li> <li>Make sure that all queiries end in '::'. For example, user=spez::</li> ");
          $('.search_results_section').append("<li>Example 1: <b>search=I have:: user=spez:: subreddit=ModSupport::</b></li><li>Example 2: <b>subreddit=all:: search=i wonder:: </b></li></ul></div>"); 
@@ -73,48 +77,107 @@ $(document).ready(function() {
 
      function showLocalServerResults(commentResponse, searchterms, username, subreddit) {
         $('.search_results_section').html("");
-        $('.search_results_section').append("<div>Query complete. Results found: <b> <span id='res_number'>" + commentResponse.length + "</span></b> <br><br></div>");
+         $('.search_results_section').append("<div>Query complete. Results found: <b> <span id='res_number'>" + commentResponse.length + "</span></b> <br><br></div>");
+
         if (commentResponse.length == 0){
              showNoMatchMessege(searchterms, username, subreddit);
          }
 
          else{
         for (var j = 0; j < commentResponse.length; j++) {
-            var titleElement = $(".short_url_" + j + "");
-            var url = commentResponse[j].comment_link;
-            $.ajax({
-                url: url + '.json',
-                dataType: "json",
-                success: function(thisText) {
-                    var title = thisText[0].data.children[0].data.permalink;
-                    var body;
-                    var permalink = "https://www.reddit.com" + title;
+            var text = commentResponse[j].comment_text;
+                var titleElement = $(".short_url_" + j + "");
+                var url = commentResponse[j].comment_link;
+                $.ajax({
+                    url: url + '.json',
+                    dataType: "json",
+                    success: function(thisText) {
+                        var title = thisText[0].data.children[0].data.permalink;
+                        var body;
+                        var permalink = "https://www.reddit.com" + title;
 
-                    if(!thisText[1].data.children[0]){
-                        body = "<span class=removed><b>[ERROR]</b></span>";
-                        for (var i = 0; i < commentResponse.length; i++){
-                                if(commentResponse[i].comment_link + ".json" == this.url){
-                                    permalink = commentResponse[i].comment_link;
-                                    body = "<span class=removed><b>[NOTE: THIS COMMENT HAS BEEN REMOVED] </b></span> " +  commentResponse[i].comment_text + "";
-                                }
+                        if(!thisText[1].data.children[0]){
+                            body = "<span class=removed><b>[ERROR]</b></span>";
+                            for (var i = 0; i < commentResponse.length; i++){
+                                    if(commentResponse[i].comment_link + ".json" == this.url){
+                                        permalink = commentResponse[i].comment_link;
+                                        body = "<span class=removed><b>[NOTE: THIS COMMENT HAS BEEN REMOVED] </b></span> " +  commentResponse[i].comment_text + "";
+                                    }
+                            }
+
+                        }
+                        else {
+                            body = clean(thisText[1].data.children[0].data.body_html);
+                            permalink = permalink + thisText[1].data.children[0].data.id;
                         }
 
+                        if(searchterms){ body = body.replaceAll(searchterms, '<span class=highlight><b>' + searchterms + '</b></span>');}
+                        $('.search_results_section').append("<div class='short_url'>" + "<a href='" + permalink + "' target='_blank' class='url'>" + title + "</a>" + "</div>" + "<div class='comment_body'>" + body + "</div>");
                     }
-                    else {
-                        body = clean(thisText[1].data.children[0].data.body_html);
-                        permalink = permalink + thisText[1].data.children[0].data.id;
-                    }
-
-                    if(searchterms){ body = body.replaceAll(searchterms, '<span class=highlight><b>' + searchterms + '</b></span>');}
-                    $('.search_results_section').append("<div class='short_url'>" + "<a href='" + permalink + "' target='_blank'>" + title + "</a>" + "</div>" + "<div class='comment_body'>" + body + "</div>");
-                }
-            });
+                });
         }
         }
     }
 
+
+
+
+         function updateSearch(searchterms) {
+        $('.search_results_section').html("");
+        var match_ct = 0;
+         $('.search_results_section').append("<div>Query complete. Results found: <b> <span id='res_number'>" + match_ct + "</span></b> <br><br></div>");
+
+        if (COMMENT_RESPONSE.length == 0){
+             showNoMatchMessege(searchterms, username, subreddit);
+         }
+
+         else{
+        for (var j = 0; j < COMMENT_RESPONSE.length; j++) {
+            var text = COMMENT_RESPONSE[j].comment_text;
+            if(contains( text, searchterms)){
+                match_ct++;
+                $('#res_number').html(match_ct);
+                var titleElement = $(".short_url_" + j + "");
+                var url = COMMENT_RESPONSE[j].comment_link;
+                $.ajax({
+                    url: url + '.json',
+                    dataType: "json",
+                    success: function(thisText) {
+                        var title = thisText[0].data.children[0].data.permalink;
+                        var body;
+                        var permalink = "https://www.reddit.com" + title;
+
+                        if(!thisText[1].data.children[0]){
+                            body = "<span class=removed><b>[ERROR]</b></span>";
+                            for (var i = 0; i < COMMENT_RESPONSE.length; i++){
+                                    if(COMMENT_RESPONSE[i].comment_link + ".json" == this.url){
+                                        permalink = COMMENT_RESPONSE[i].comment_link;
+                                        body = "<span class=removed><b>[NOTE: THIS COMMENT HAS BEEN REMOVED] </b></span> " +  COMMENT_RESPONSE[i].comment_text + "";
+                                    }
+                            }
+
+                        }
+                        else {
+                            body = clean(thisText[1].data.children[0].data.body_html);
+                            permalink = permalink + thisText[1].data.children[0].data.id;
+                        }
+
+                        if(searchterms){ body = body.replaceAll(searchterms, '<span class=highlight><b>' + searchterms + '</b></span>');}
+                        $('.search_results_section').append("<div class='short_url'>" + "<a href='" + permalink + "' target='_blank' class='url'>" + title + "</a>" + "</div>" + "<div class='comment_body'>" + body + "</div>");
+                    }
+                });
+            }
+
+        }
+        }
+    }
+
+
+
+
     //Function which does the magic of getting the wiki data according to the username user searches for
     function getComments(username, searchterms, subreddit) {
+
         $('.search_results_section').html("");
 
         if (username == ""){delete username;}
@@ -122,58 +185,51 @@ $(document).ready(function() {
         if (subreddit == "") {delete subreddit;}
 
         if(username && subreddit && searchterms){
-         $('.search_results_section').append("<div class='error'><div>We are looking for comments by <b><a href='https://www.reddit.com/u/" + username + "'>/u/" + username + " </a></b> in <b><a href='https://www.reddit.com/r/" + subreddit + "'>r/ " + subreddit + "</a> </b> containing the phrase <b>" + searchterms + "</b></div>" + "<br>" + "<div>Please wait, this could take a bit of time....</div>");
+         $('.search_results_section').append("<div class='error'><div>We are looking for comments by <b><a href='https://www.reddit.com/u/" + username + "'>/u/" + username + " </a></b> in <b><a href='https://www.reddit.com/r/" + subreddit + "'>r/" + subreddit + "</a> </b> containing the phrase <b>" + searchterms + "</b></div>" + "<br>" + "<div>Please wait, this could take a bit of time....</div>");
          my_server_url = SERVER_ADDRESS + "comments?search=" + searchterms + "&user_name=" + username + "&subreddit=" + subreddit;
-         getMyServerResults(my_server_url, searchterms, username, subreddit);
      }
 
 
         else if (username && searchterms){
          $('.search_results_section').append("<div class='error'><div>We are looking for comments by <b><a href='https://www.reddit.com/u/" + username + "'>/u/" + username + " </a></b> containing the phrase <b>" + searchterms + "</b></div>" + "<br>" + "<div>Please wait, this could take a bit of time....</div>");
          my_server_url = SERVER_ADDRESS + "comments?search=" + searchterms + "&user_name=" + username;
-         getMyServerResults(my_server_url, searchterms, username, subreddit);
      }
 
 
       else if (subreddit && searchterms){
-         $('.search_results_section').append("<div class='error'><div>We are looking for comments in <b><a href='https://www.reddit.com/r/" + subreddit + "'>r/ " + subreddit + "</a> </b> containing the phrase <b>" + searchterms + "</b></div>" + "<br>" + "<div>Please wait, this could take a bit of time....</div>");
+         $('.search_results_section').append("<div class='error'><div>We are looking for comments in <b><a href='https://www.reddit.com/r/" + subreddit + "'>r/" + subreddit + "</a> </b> containing the phrase <b>" + searchterms + "</b></div>" + "<br>" + "<div>Please wait, this could take a bit of time....</div>");
          my_server_url = SERVER_ADDRESS + "comments?search=" + searchterms + "&subreddit=" + subreddit;
-         getMyServerResults(my_server_url, searchterms, username, subreddit);
-
      }
 
       else if (subreddit  && username){
-         $('.search_results_section').append("<div class='error'><div>We are looking for comments by <b><a href='https://www.reddit.com/u/" + username + "'>/u/" + username + " </a></b> in <b><a href='https://www.reddit.com/r/" + subreddit + "'>r/ " + subreddit + "</a> </b> </div>" + "<br>" + "<div>Please wait, this could take a bit of time....</div>");
+         $('.search_results_section').append("<div class='error'><div>We are looking for comments by <b><a href='https://www.reddit.com/u/" + username + "'>/u/" + username + " </a></b> in <b><a href='https://www.reddit.com/r/" + subreddit + "'>r/" + subreddit + "</a> </b> </div>" + "<br>" + "<div>Please wait, this could take a bit of time....</div>");
           my_server_url = SERVER_ADDRESS + "comments?user_name=" + username + "&subreddit=" + subreddit;
-         getMyServerResults(my_server_url, searchterms, username, subreddit);
-
      }
 
         else if (searchterms){
          $('.search_results_section').append("<div class='error'><div>We are looking for comments containing the phrase <b>" + username + "</b> containing the phrase <b>" + searchterms + "</b></div>" + "<br>" + "<div>Please wait, this could take a bit of time....</div>");
          my_server_url = SERVER_ADDRESS + "comments?search=" + searchterms;
-         getMyServerResults(my_server_url, searchterms, username, subreddit);
-
      }
 
         else if (username){
          $('.search_results_section').append("<div class='error'><div>We are looking for comments by <b><a href='https://www.reddit.com/u/" + username + "'>/u/" + username + " </a></b>" + "<br>" + "<div>Please wait, this could take a bit of time....</div>");
           my_server_url = SERVER_ADDRESS + "comments?user_name=" + username;
-         getMyServerResults(my_server_url, searchterms, username, subreddit);
-
      }
 
     else if (subreddit){
-         $('.search_results_section').append("<div class='error'><div>We are looking for comments in <b><a href='https://www.reddit.com/r/" + subreddit + "'>r/ " + subreddit + "</a> </b> " + "<br>" + "<div>Please wait, this could take a bit of time....</div>");
+         $('.search_results_section').append("<div class='error'><div>We are looking for comments in <b><a href='https://www.reddit.com/r/" + subreddit + "'>r/" + subreddit + "</a> </b> " + "<br>" + "<div>Please wait, this could take a bit of time....</div>");
           my_server_url = SERVER_ADDRESS + "comments?subreddit=" + subreddit;
-         getMyServerResults(my_server_url);
-
      }
 
      else {
         console.log("Hmm they are all undefined");
      }
+
+        getMyServerResults(my_server_url,  searchterms, username, subreddit);
+
     }
+
+
 
 
     //When user clicks the search icon on the display section where the wiki results are appended
@@ -185,16 +241,19 @@ $(document).ready(function() {
             var fullSearchString = $('#after_search').val();
             if(fullSearchString.includes("user=")){
               var user = getStringBetween(fullSearchString, "user=", '::');
+              USER = user;
               console.log("u: " + user + '\n');
             }
 
               if(fullSearchString.includes("subreddit=")){
               var subreddit = getStringBetween(fullSearchString, "subreddit=", '::');
+              SUBREDDIT = subreddit;
               console.log("sub: " + subreddit);
             }
 
               if(fullSearchString.includes("search=")){
               var  search_terms = getStringBetween(fullSearchString, 'search=', '::');
+              SEARCH_TERMS = search_terms;
               console.log("search: " + search_terms);
             } 
 
@@ -208,6 +267,43 @@ $(document).ready(function() {
         }
     });
 
+
+
+      //When the user starts typing in..
+      $(document).keyup(function(e){
+      if(e.which==13){
+        if ($('#searched_results_display').hasClass('hidden')) {
+             $('#search').click();
+        }
+
+        else{
+            var fullSearchString = $('#after_search').val();
+            $('.after_search_container span').click();
+        }
+
+
+      }
+           else{
+            var fullSearchString = $('#after_search').val();
+            if (!($('#searched_results_display').hasClass('hidden'))){
+
+              if(fullSearchString.includes("search=")){
+              var search_terms = getStringBetween(fullSearchString, 'search=', '::');
+              if(search_terms != "" && search_terms != SEARCH_TERMS){
+                              console.log("new search: " + search_terms);
+
+              }
+              SEARCH_TERMS = search_terms;
+              updateSearch(search_terms);
+            } 
+
+            } 
+        }
+    });
+
+
+
+
 });
 
     function clean(string) {
@@ -218,6 +314,16 @@ $(document).ready(function() {
         ret = ret.replace(/&amp;/g, '&');
         return ret;
     }
+
+
+ function contains(string, search) {
+        if (string.indexOf(search) !== -1){
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
 
 
 String.prototype.replaceAll = function(search, replacement) {
@@ -231,3 +337,6 @@ String.prototype.replaceAll = function(search, replacement) {
         var postStringIndex = preIndex + fullSearchString.substring(preIndex).indexOf(postString);
         return fullSearchString.substring(preIndex + preString.length, postStringIndex);
     };
+
+
+
